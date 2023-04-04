@@ -4,7 +4,7 @@ import TeamsController from '../controllers/TeamsController';
 const router = Router();
 const teamsController = new TeamsController();
 
-router.post('/', teamsController.getAllTeams);
+router.get('/', teamsController.getAllTeams);
 
 export default router;
 
