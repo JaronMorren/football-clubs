@@ -3,7 +3,7 @@ import Teams from '../models/TeamsModel';
 import ITeams from '../interfaces/ITeams';
 
 class TeamsService {
-  teamsModel : ModelStatic<Teams>;
+  private teamsModel : ModelStatic<Teams>;
 
   constructor(teamsModel:ModelStatic<Teams>) {
     this.teamsModel = teamsModel;
