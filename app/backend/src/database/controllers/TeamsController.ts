@@ -19,3 +19,4 @@ class TeamsController {
   };
 }
 export default TeamsController;
+// https://github.com/tryber/sd-025-b-live-lectures/blob/lecture/back/9.4/9.4/src/controllers/userController.ts
