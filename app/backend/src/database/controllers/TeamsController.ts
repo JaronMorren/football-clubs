@@ -29,8 +29,8 @@ class TeamsController {
     next: NextFunction,
   ): Promise<void> => {
     try {
-      const { ID } = request.params;
-      const team = await this.service.getTeamByID(ID);
+      const { id } = request.params;
+      const team = await this.service.getTeamByID(id);
       // getTeamByID receives a string as argument instead of number so I had to change it in the service layer
       response.status(200).json(team);
     } catch (error) {
