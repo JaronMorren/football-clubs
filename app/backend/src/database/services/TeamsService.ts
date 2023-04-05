@@ -14,5 +14,10 @@ class TeamsService {
     return allTeams;
     //  I based this modelstatic interface on this thread: https://trybecourse.slack.com/archives/C03MSCCRPAQ/p1680107639238259
   }
+
+  public async getTeamById(ID: number):Promise<Teams | null> {
+    const team = await this.teamsModel.findByPk(ID);
+    return team;
+  }
 }
 export default TeamsService;
