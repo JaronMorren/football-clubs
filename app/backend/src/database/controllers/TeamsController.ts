@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import TeamsService from '../services/TeamsService';
 import Teams from '../models/TeamsModel';
 
@@ -9,12 +9,32 @@ class TeamsController {
     this.service = new TeamsService(Teams);
   }
 
-  getAllTeams = async (_request: Request, response: Response): Promise<void> => {
+  public getAllTeams = async (
+    _request: Request,
+    response: Response,
+    next:NextFunction,
+  ):
+  Promise<void> => {
     try {
       const allTeams = await this.service.getAllTeams();
       response.status(200).json(allTeams);
     } catch (error) {
-      response.status(500).json(error);
+      next(error);
+    }
+  };
+
+  public getTeamByID = async (
+    request: Request,
+    response: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const { ID } = request.params;
+      const team = await this.service.getTeamByID(ID);
+      // getTeamByID receives a string as argument instead of number so I had to change it in the service layer
+      response.status(200).json(team);
+    } catch (error) {
+      next(error);
     }
   };
 }
