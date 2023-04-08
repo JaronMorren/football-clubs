@@ -3,10 +3,10 @@ import { ModelStatic } from 'sequelize';
 import Users from '../models/UsersModel';
 import { createToken } from '../utilities/authorisation';
 
-class ServiceLogin {
+class LoginService {
   model: ModelStatic<Users> = Users;
 
-  async userLogin(email: string, password: string) {
+  public async userLogin(email: string, password: string) {
     const user = await this.model.findOne({ where: { email } });
     if (!user) {
       return null;
@@ -18,4 +18,4 @@ class ServiceLogin {
     }
   }
 }
-export default ServiceLogin;
+export default LoginService;
