@@ -16,7 +16,7 @@ Users.init({
     type: INTEGER,
     primaryKey: true,
   },
-  userName: {
+  username: {
     allowNull: false,
     type: STRING,
   },

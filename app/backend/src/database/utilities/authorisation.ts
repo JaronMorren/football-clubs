@@ -1,14 +1,22 @@
 import * as jwt from 'jsonwebtoken';
-import { IUsers } from '../interfaces/IUsers';
 
-const secret:string = process.env.JWT_SECRET || 'secret';
+const secret = process.env.JWT_SECRET || 'secret';
 
-const generateToken = (data:IUsers) =>
-  jwt.sign({ data }, secret, {
+const createToken = (param: object) => {
+  const jwtConfig = jwt.sign(param, secret, {
     algorithm: 'HS256',
     expiresIn: '7d',
   });
+  return jwtConfig;
+};
 
-const verifyToken = (token:string) => jwt.verify(token, secret);
+const verifyToken = (token: string) => {
+  const verify = jwt.verify(token, secret);
+  return verify;
+};
 
-export { generateToken, verifyToken };
+export {
+  createToken,
+  verifyToken,
+};
+// https://github.com/tryber/sd-025-b-live-lectures/blob/lecture/back-end/6.4/src/auth/authFuctions.js
