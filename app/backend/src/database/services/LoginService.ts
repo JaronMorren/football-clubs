@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { ModelStatic } from 'sequelize';
 import Users from '../models/UsersModel';
-import { createToken } from '../utilities/authorisation';
 
 class LoginService {
   model: ModelStatic<Users> = Users;
@@ -13,8 +12,7 @@ class LoginService {
     }
     const correctPassword = bcrypt.compareSync(password, user.dataValues.password);
     if (correctPassword) {
-      const userToken = createToken(user);
-      return { correctPassword, userToken };
+      return { correctPassword };
     }
   }
 }
