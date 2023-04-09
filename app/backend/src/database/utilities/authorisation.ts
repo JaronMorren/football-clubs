@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 const secret = process.env.JWT_SECRET || 'secret';
 
 const createToken = (param: object) => {
-  const jwtConfig = jwt.sign(param, secret, {
+  const jwtConfig = jwt.sign({ param }, secret, {
     algorithm: 'HS256',
     expiresIn: '7d',
   });
