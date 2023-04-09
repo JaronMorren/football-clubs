@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import LoginService from '../services/LoginService';
+import { createToken } from '../utilities/authorisation';
 
 class LoginController {
   loginService: LoginService = new LoginService();
@@ -8,10 +9,12 @@ class LoginController {
     const { email, password } = request.body;
     const loginResult = await this.loginService.userLogin(email, password);
     if (!loginResult) {
-      return response.status(401).json({ message: 'All fields must be filled' });
+      return response.status(401).json({ message: 'Invalid email or password' });
     }
+
     if (loginResult) {
-      response.status(200).json(loginResult);
+      const token = createToken(loginResult);
+      return response.status(200).json({ token });
     }
   }
 }
