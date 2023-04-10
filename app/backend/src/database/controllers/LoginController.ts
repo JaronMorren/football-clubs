@@ -5,7 +5,7 @@ import { createToken } from '../utilities/authorisation';
 class LoginController {
   loginService: LoginService = new LoginService();
 
-  async userLogin(request: Request, response: Response) {
+  public async userLogin(request: Request, response: Response) {
     const { email, password } = request.body;
     const loginResult = await this.loginService.userLogin(email, password);
     if (!loginResult) {
@@ -17,6 +17,15 @@ class LoginController {
       return response.status(200).json({ token });
     }
   }
+
+  public async getUserRole(request: Request, response: Response) {
+    const { payload } = request.body.user;
+    const { id } = payload;
+
+    const userRole = await this.loginService.getUserRole(id);
+    return response.status(200).json({ userRole });
+  }
 }
 
 export default LoginController;
+// Monitor Gabriel Gonçalves helped me write this controller
