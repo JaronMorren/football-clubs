@@ -15,5 +15,14 @@ class LoginService {
       return { correctPassword };
     }
   }
+
+  public async getUserRole(id: number) {
+    const user = await this.model.findOne({ where: { id } });
+    if (!user) { return null; }
+
+    const { userRole } = user.dataValues;
+    return userRole;
+  }
 }
 export default LoginService;
+// Monitor Gabriel Gonçalves helped me write this service
