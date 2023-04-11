@@ -17,15 +17,20 @@ class LoginController {
       return response.status(200).json({ token });
     }
   }
+  // Gabriel Gonçalves helped me write this function
 
-  public async getUserRole(request: Request, response: Response) {
-    const { payload } = request.body.user;
-    const { id } = payload;
+  public getUserRole = (request: Request, response: Response) => {
+    try {
+      const { payload } = request.body.user;
+      // const { id } = payload;
 
-    const userRole = await this.loginService.getUserRole(id);
-    return response.status(200).json({ userRole });
-  }
+      const userRole = { role: payload.role };
+      return response.status(200).json({ userRole });
+    } catch (error) {
+      return response.status(500).json({ message: 'Internal Error' });
+    }
+  };
 }
-
+// Daniel Röhe, Josiel Costa and Ligia Bicalho helped me write this function
+// https://trybecourse.slack.com/archives/C03NDPN4132/p1681089516466109
 export default LoginController;
-// Monitor Gabriel Gonçalves helped me write this controller

@@ -8,21 +8,18 @@ class LoginService {
   public async userLogin(email: string, password: string) {
     const user = await this.model.findOne({ where: { email } });
     if (!user) {
-      return null;
+      return { type: 401, message: 'Invalid email or password' };
     }
-    const correctPassword = bcrypt.compareSync(password, user.dataValues.password);
-    if (correctPassword) {
-      return { correctPassword };
+    const isCorrectPassword = bcrypt.compareSync(password, user.dataValues.password);
+    if (!isCorrectPassword) {
+      return { type: 401, message: 'Invalid email or password' };
     }
-  }
-
-  public async getUserRole(id: number) {
-    const user = await this.model.findOne({ where: { id } });
-    if (!user) { return null; }
-
-    const { userRole } = user.dataValues;
-    return userRole;
+    if (isCorrectPassword) {
+      return { type: null, message: user.role };
+    }
   }
 }
+// Daniel Röhe and Ligia Bicalho helped me write this function
+// https://trybecourse.slack.com/archives/C03NDPN4132/p1681089516466109
+
 export default LoginService;
-// Monitor Gabriel Gonçalves helped me write this service
