@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import * as bcrypt from 'bcryptjs';
 import LoginService from '../services/LoginService';
 import { createToken } from '../utilities/authorisation';
 
@@ -7,25 +8,28 @@ class LoginController {
 
   public async userLogin(request: Request, response: Response) {
     const { email, password } = request.body;
-    const loginResult = await this.loginService.userLogin(email, password);
-    if (!loginResult) {
+    const users = await this.loginService.getUserByEmail(email);
+    if (!users) {
+      return response.status(401).json({ message: 'Invalid email or password' });
+    }
+    if (!bcrypt.compareSync(password, users.password || '')) {
       return response.status(401).json({ message: 'Invalid email or password' });
     }
 
-    if (loginResult) {
-      const token = createToken(loginResult);
+    if (users) {
+      const token = createToken(users);
       return response.status(200).json({ token });
     }
   }
+
   // Gabriel Gonçalves helped me write this function
 
-  public getUserRole = (request: Request, response: Response) => {
+  public getUserRole = async (request: Request, response: Response) => {
     try {
-      const { payload } = request.body.user;
-      // const { id } = payload;
+      const { id } = request.body.user;
+      const role = await this.loginService.getUserByID(id);
 
-      const userRole = { role: payload.role };
-      return response.status(200).json({ userRole });
+      return response.status(200).json(role);
     } catch (error) {
       return response.status(500).json({ message: 'Internal Error' });
     }
