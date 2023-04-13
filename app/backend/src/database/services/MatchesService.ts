@@ -22,6 +22,11 @@ class MatchesService {
     return matches;
   }
 
+  public async getMatchByID(id: string):Promise<Matches | null> {
+    const match = await this.model.findByPk(id);
+    return match;
+  }
+
   public async getMatchesByProgress(inProgress: string):Promise<Matches[]> {
     const matchesInProgress = await this.model.findAll({
       where: { inProgress: JSON.parse(inProgress.toLowerCase()) },
