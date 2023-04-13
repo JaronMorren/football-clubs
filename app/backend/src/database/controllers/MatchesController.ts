@@ -48,5 +48,27 @@ class MatchesController {
       next(error);
     }
   };
+
+  public createMatch = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = request.body;
+      const homeTeam = await this.service.getMatchByID(homeTeamId);
+      const awayTeam = await this.service.getMatchByID(awayTeamId);
+
+      if (!homeTeam || !awayTeam) {
+        return response.status(404)
+          .json({ message: 'There is no team with such id!' });
+      }
+      if (homeTeamId === awayTeamId) {
+        return response.status(422)
+          .json({ message: 'It is not possible to create a match with two equal teams' });
+      }
+      const createdMatch = await this.service
+        .createMatch(homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals);
+      return response.status(201).json(createdMatch);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default MatchesController;
