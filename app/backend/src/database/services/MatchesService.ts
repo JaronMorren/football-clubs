@@ -36,7 +36,7 @@ class MatchesService {
         }],
     });
     return matchesInProgress;
-  }
+  } // Italo Moura helped me write this function
 
   public async finishMatch(id: string) {
     const finishedMatch = await this.model.update(
@@ -45,7 +45,17 @@ class MatchesService {
     );
     return finishedMatch;
   }
+
+  public async updateMatch(
+    id: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) {
+    await this.model.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+  }
 }
 
 export default MatchesService;
-// Italo Moura helped me write this function
