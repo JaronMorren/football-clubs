@@ -6,7 +6,7 @@ class MatchesService {
   model: ModelStatic<Matches> = Matches;
   teams: ModelStatic<Teams> = Teams;
 
-  async getAllMatches(): Promise<Matches[]> {
+  public async getAllMatches(): Promise<Matches[]> {
     const matches = await this.model.findAll({
       include: [
         {
@@ -21,6 +21,23 @@ class MatchesService {
     });
     return matches;
   }
+
+  public async getMatchesByProgress(inProgress: string):Promise<Matches[]> {
+    const matchesInProgress = await this.model.findAll({
+      where: { inProgress: JSON.parse(inProgress.toLowerCase()) },
+      include: [
+        {
+          model: this.teams,
+          as: 'homeTeam',
+        },
+        {
+          model: this.teams,
+          as: 'awayTeam',
+        }],
+    });
+    return matchesInProgress;
+  }
 }
+
 export default MatchesService;
 // Italo Moura helped me write this function
