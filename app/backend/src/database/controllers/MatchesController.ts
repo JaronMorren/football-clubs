@@ -12,7 +12,7 @@ class MatchesController {
     request: Request,
     response: Response,
     next: NextFunction,
-  ): Promise<void> => {
+  ) => {
     try {
       const { inProgress } = request.query;
       if (inProgress) {
@@ -25,6 +25,17 @@ class MatchesController {
       next(error);
     }
   };
+  // Italo Moura helped me write this function
+
+  public finishMatch = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const { id } = request.params;
+
+      await this.service.finishMatch(id);
+      return response.status(200).json({ message: 'Finished' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 export default MatchesController;
-// Italo Moura helped me write this function
