@@ -14,5 +14,12 @@ class LeaderboardController {
       return response.status(200).json(leaderboard);
     } catch (error) { next(error); }
   };
+
+  public getawayLeaderboard = async (_request: Request, response: Response, next: NextFunction) => {
+    try {
+      const leaderboard = await this.service.getAwayLeaderboard();
+      return response.status(200).json(leaderboard);
+    } catch (error) { next(error); }
+  };
 }
 export default LeaderboardController;
