@@ -33,5 +33,6 @@ FROM
         JOIN
     TRYBE_FUTEBOL_CLUBE.matches AS matches ON matches.home_team_id = teams.id
         AND matches.in_progress IS FALSE
-GROUP BY name;`
+GROUP BY name
+ORDER BY totalPoints DESC , totalVictories DESC , goalsBalance DESC , goalsFavor DESC;`;
 export default homeLeaderboard;
