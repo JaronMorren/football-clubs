@@ -21,7 +21,7 @@ SELECT
     END) AS totalLosses,
     SUM(matches.home_team_goals) AS goalsFavor,
     SUM(matches.away_team_goals) AS goalsOwn,
-    SUM(home_team_goals) - SUM(away_team_goals) AS goalsBalance,
+    SUM(away_team_goals) - SUM(home_team_goals) AS goalsBalance,
     FORMAT((SUM(CASE
             WHEN matches.home_team_goals < matches.away_team_goals THEN 3
             WHEN matches.home_team_goals = matches.away_team_goals THEN 1
@@ -31,7 +31,7 @@ SELECT
 FROM
     TRYBE_FUTEBOL_CLUBE.teams AS teams
         JOIN
-    TRYBE_FUTEBOL_CLUBE.matches AS matches ON matches.home_team_id = teams.id
+    TRYBE_FUTEBOL_CLUBE.matches AS matches ON matches.away_team_id = teams.id
         AND matches.in_progress IS FALSE
 GROUP BY name
 ORDER BY totalPoints DESC , totalVictories DESC , goalsBalance DESC , goalsFavor DESC;`;
