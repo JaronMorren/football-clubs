@@ -19,8 +19,8 @@ SELECT
         WHEN matches.home_team_goals > matches.away_team_goals THEN 1
         ELSE 0
     END) AS totalLosses,
-    SUM(matches.home_team_goals) AS goalsFavor,
-    SUM(matches.away_team_goals) AS goalsOwn,
+    SUM(matches.away_team_goals) AS goalsFavor,
+    SUM(matches.home_team_goals) AS goalsOwn,
     SUM(away_team_goals) - SUM(home_team_goals) AS goalsBalance,
     FORMAT((SUM(CASE
             WHEN matches.home_team_goals < matches.away_team_goals THEN 3
